@@ -1,32 +1,52 @@
 package me.jun.interviewtraining.meeting.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import static me.jun.interviewtraining.support.UrlUtils.MEETING_URL;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(toBuilder = true)
+@Getter
 public class Meeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String url;
 
-    private Long interviewerCount;
-
+    @Column
     private Long limitInterviewerCount;
 
-    public boolean canJoin(String interviewEmail) {
-        return interviewerCount < limitInterviewerCount;
+    @ElementCollection
+    private Set<Interviewer> interviewers;
+
+    public boolean canJoin() {
+        return interviewers.size() < limitInterviewerCount;
+    }
+
+    public static Meeting of(Long limitInterviewerCount, Interviewer creator) {
+        String url = MEETING_URL + "/" + creator.getEmail();
+
+        Meeting meeting = Meeting.builder()
+                .interviewers(new HashSet<>())
+                .limitInterviewerCount(limitInterviewerCount)
+                .url(url)
+                .build();
+
+        meeting.interviewers.add(creator);
+
+        return meeting;
+    }
+
+    public void join(Interviewer email) {
+        interviewers.add(email);
     }
 }
