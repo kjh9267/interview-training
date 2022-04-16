@@ -1,6 +1,7 @@
 package me.jun.interviewtraining.meeting.domain;
 
 import lombok.*;
+import me.jun.interviewtraining.meeting.domain.exception.LimitInterviewerCountException;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import static me.jun.interviewtraining.support.UrlUtils.MEETING_URL;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(toBuilder = true)
+@EqualsAndHashCode(of = "id")
 @Getter
 public class Meeting {
 
@@ -19,7 +21,7 @@ public class Meeting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String url;
 
     @Column
@@ -28,12 +30,19 @@ public class Meeting {
     @ElementCollection
     private Set<Interviewer> interviewers;
 
-    public boolean canJoin() {
+    public void join(Interviewer email) {
+        if (!canJoin()) {
+            throw new LimitInterviewerCountException();
+        }
+        interviewers.add(email);
+    }
+
+    boolean canJoin() {
         return interviewers.size() < limitInterviewerCount;
     }
 
     public static Meeting of(Long limitInterviewerCount, Interviewer creator) {
-        String url = MEETING_URL + "/" + creator.getEmail();
+        String url = createUrl(creator);
 
         Meeting meeting = Meeting.builder()
                 .interviewers(new HashSet<>())
@@ -46,7 +55,7 @@ public class Meeting {
         return meeting;
     }
 
-    public void join(Interviewer email) {
-        interviewers.add(email);
+    private static String createUrl(Interviewer creator) {
+        return MEETING_URL + "/" + creator.getEmail();
     }
 }
