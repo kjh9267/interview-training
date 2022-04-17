@@ -19,4 +19,8 @@ public class RequestUser {
     public Interviewer toInterviewer() {
         return Interviewer.of(email);
     }
+
+    public static RequestUser from(String email) {
+        return new RequestUser(email);
+    }
 }

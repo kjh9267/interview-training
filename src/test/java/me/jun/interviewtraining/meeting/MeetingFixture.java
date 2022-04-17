@@ -25,6 +25,8 @@ abstract public class MeetingFixture {
 
     public static final Long LIMIT_INTERVIEWER_COUNT = 2L;
 
+    public static final String I_USER = "I-USER";
+
     public static Meeting meeting() {
         Meeting meeting = Meeting.of(LIMIT_INTERVIEWER_COUNT, CREATOR);
 
