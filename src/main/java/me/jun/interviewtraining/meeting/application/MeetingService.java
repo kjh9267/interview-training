@@ -1,10 +1,8 @@
 package me.jun.interviewtraining.meeting.application;
 
 import lombok.RequiredArgsConstructor;
-import me.jun.interviewtraining.meeting.application.dto.CreateMeetingRequest;
-import me.jun.interviewtraining.meeting.application.dto.JoinMeetingRequest;
-import me.jun.interviewtraining.meeting.application.dto.MeetingResponse;
-import me.jun.interviewtraining.meeting.application.dto.RequestUser;
+import me.jun.interviewtraining.meeting.application.dto.*;
+import me.jun.interviewtraining.meeting.application.exception.MeetingNotFoundException;
 import me.jun.interviewtraining.meeting.domain.Interviewer;
 import me.jun.interviewtraining.meeting.domain.Meeting;
 import me.jun.interviewtraining.meeting.domain.repository.MeetingRepository;
@@ -30,10 +28,25 @@ public class MeetingService {
         return MeetingResponse.from(savedMeeting);
     }
 
-    public void joinMeeting(JoinMeetingRequest request, RequestUser user) {
+    public MeetingResponse joinMeeting(JoinMeetingRequest request, RequestUser user) {
         String url = request.getUrl();
-        String email = user.getEmail();
+        Interviewer interviewer = user.toInterviewer();
 
-//        meeting
+        Meeting meeting = meetingRepository.findByUrl(url)
+                .orElseThrow(MeetingNotFoundException::new);
+
+        meeting.join(interviewer);
+
+        return MeetingResponse.from(meeting);
+    }
+
+    public void leaveMeeting(LeaveMeetingRequest request, RequestUser user) {
+        String url = request.getUrl();
+        Interviewer interviewer = user.toInterviewer();
+
+        Meeting meeting = meetingRepository.findByUrl(url)
+                .orElseThrow(MeetingNotFoundException::new);
+
+        meeting.leave(interviewer);
     }
 }

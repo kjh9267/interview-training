@@ -11,6 +11,7 @@ import static java.util.Objects.requireNonNull;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "email")
+@ToString
 public class Interviewer {
 
     private String email;

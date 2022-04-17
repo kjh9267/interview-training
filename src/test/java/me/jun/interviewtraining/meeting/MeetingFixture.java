@@ -2,9 +2,7 @@ package me.jun.interviewtraining.meeting;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import me.jun.interviewtraining.meeting.application.dto.CreateMeetingRequest;
-import me.jun.interviewtraining.meeting.application.dto.MeetingResponse;
-import me.jun.interviewtraining.meeting.application.dto.RequestUser;
+import me.jun.interviewtraining.meeting.application.dto.*;
 import me.jun.interviewtraining.meeting.domain.Interviewer;
 import me.jun.interviewtraining.meeting.domain.Meeting;
 
@@ -46,5 +44,17 @@ abstract public class MeetingFixture {
 
     public static MeetingResponse meetingResponse() {
         return MeetingResponse.from(meeting());
+    }
+
+    public static JoinMeetingRequest joinMeetingRequest() {
+        return new JoinMeetingRequest(MEETING_URL);
+    }
+
+    public static RequestUser requestUser() {
+        return new RequestUser(INTERVIEWER_EMAIL);
+    }
+
+    public static LeaveMeetingRequest leaveMeetingRequest() {
+        return new LeaveMeetingRequest(MEETING_URL);
     }
 }

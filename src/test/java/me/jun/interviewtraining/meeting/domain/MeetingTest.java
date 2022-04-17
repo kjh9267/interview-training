@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static me.jun.interviewtraining.meeting.MeetingFixture.INTERVIEWER;
-import static me.jun.interviewtraining.meeting.MeetingFixture.meeting;
+import static me.jun.interviewtraining.meeting.MeetingFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -74,5 +73,17 @@ public class MeetingTest {
                 LimitInterviewerCountException.class,
                 () -> meeting.join(INTERVIEWER)
         );
+    }
+
+    @Test
+    void leaveTest() {
+        Meeting meeting = meeting();
+
+        meeting.leave(CREATOR);
+
+        Set<Interviewer> interviewers = meeting.getInterviewers();
+
+        assertThat(interviewers.size())
+                .isEqualTo(0L);
     }
 }

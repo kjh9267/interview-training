@@ -3,21 +3,21 @@ package me.jun.interviewtraining.meeting.application;
 import me.jun.interviewtraining.meeting.application.dto.CreateMeetingRequest;
 import me.jun.interviewtraining.meeting.application.dto.MeetingResponse;
 import me.jun.interviewtraining.meeting.application.dto.RequestUser;
-import me.jun.interviewtraining.meeting.domain.Interviewer;
+import me.jun.interviewtraining.meeting.application.exception.MeetingNotFoundException;
 import me.jun.interviewtraining.meeting.domain.Meeting;
 import me.jun.interviewtraining.meeting.domain.repository.MeetingRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static me.jun.interviewtraining.meeting.MeetingFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -52,24 +52,37 @@ public class MeetingServiceTest {
     }
 
     @Test
-    @Disabled
     void joinMeetingTest() {
         Meeting meeting = meeting();
 
         given(meetingRepository.findByUrl(MEETING_URL))
                 .willReturn(Optional.of(meeting));
 
-//        meetingService.joinMeeting()
+        assertThatCode(
+                () -> meetingService.joinMeeting(joinMeetingRequest(), requestUser())
+        )
+                .doesNotThrowAnyException();
     }
 
     @Test
-    @Disabled
-    void limitInterviewer_joinMeetingFailTest() {
-        Set<Interviewer> interviewers = meeting().getInterviewers();
+    void noMeeting_joinMeetingFailTest() {
+        given(meetingRepository.findByUrl(MEETING_URL))
+                .willThrow(MeetingNotFoundException.class);
 
-        interviewers.add(Interviewer.of("user1@email.com"));
-        interviewers.add(Interviewer.of("user2@email.com"));
+        assertThrows(
+                MeetingNotFoundException.class,
+                () -> meetingService.joinMeeting(joinMeetingRequest(), requestUser())
+        );
+    }
 
+    @Test
+    void noMeeting_leaveMeetingFailTest() {
+        given(meetingRepository.findByUrl(any()))
+                .willThrow(MeetingNotFoundException.class);
 
+        assertThrows(
+                MeetingNotFoundException.class,
+                () -> meetingService.leaveMeeting(leaveMeetingRequest(), requestUser())
+        );
     }
 }

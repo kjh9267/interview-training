@@ -30,11 +30,15 @@ public class Meeting {
     @ElementCollection
     private Set<Interviewer> interviewers;
 
-    public void join(Interviewer email) {
+    public void join(Interviewer interviewer) {
         if (!canJoin()) {
             throw new LimitInterviewerCountException();
         }
-        interviewers.add(email);
+        interviewers.add(interviewer);
+    }
+
+    public void leave(Interviewer interviewer) {
+        interviewers.remove(interviewer);
     }
 
     boolean canJoin() {
