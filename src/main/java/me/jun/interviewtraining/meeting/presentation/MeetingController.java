@@ -8,6 +8,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 import static org.springframework.http.HttpStatus.SEE_OTHER;
@@ -20,7 +21,7 @@ public class MeetingController {
     private final MeetingService meetingService;
 
     @PostMapping
-    public ResponseEntity<MeetingResponse> createMeeting(@RequestBody CreateMeetingRequest request,
+    public ResponseEntity<MeetingResponse> createMeeting(@RequestBody @Valid CreateMeetingRequest request,
                                                          @UserInfo RequestUser user) {
 
         URI uri = WebMvcLinkBuilder
@@ -34,7 +35,7 @@ public class MeetingController {
     }
 
     @PatchMapping
-    public ResponseEntity<MeetingResponse> joinMeeting(@RequestBody JoinMeetingRequest request,
+    public ResponseEntity<MeetingResponse> joinMeeting(@RequestBody @Valid JoinMeetingRequest request,
                                                        @UserInfo RequestUser user) {
 
         MeetingResponse response = meetingService.joinMeeting(request, user);
@@ -44,7 +45,7 @@ public class MeetingController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> leaveMeeting(@RequestBody LeaveMeetingRequest request,
+    public ResponseEntity<Void> leaveMeeting(@RequestBody @Valid LeaveMeetingRequest request,
                                              @UserInfo RequestUser user) {
 
         meetingService.leaveMeeting(request, user);
