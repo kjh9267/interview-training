@@ -21,10 +21,10 @@ public class Meeting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String url;
 
-    @Column
+    @Column(nullable = false)
     private Long limitInterviewerCount;
 
     @ElementCollection

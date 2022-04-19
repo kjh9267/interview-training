@@ -59,4 +59,8 @@ abstract public class MeetingFixture {
     public static LeaveMeetingRequest leaveMeetingRequest() {
         return new LeaveMeetingRequest(MEETING_URL);
     }
+
+    public static CreateMeetingRequest invalidCreateMeetingRequest() {
+        return new CreateMeetingRequest(-1L);
+    }
 }

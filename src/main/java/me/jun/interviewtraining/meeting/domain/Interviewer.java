@@ -2,6 +2,7 @@ package me.jun.interviewtraining.meeting.domain;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import static java.util.Objects.requireNonNull;
@@ -14,6 +15,7 @@ import static java.util.Objects.requireNonNull;
 @ToString
 public class Interviewer {
 
+    @Column(nullable = false)
     private String email;
 
     public static Interviewer of(String email) {
