@@ -19,6 +19,8 @@ public enum ErrorCode {
 
     INVALID_CONTENT(BAD_REQUEST, "check your content of request body"),
 
+    INVALID_EMAIL(BAD_REQUEST, "email is empty or pattern not matching"),
+
     UNEXPECTED_ERROR(INTERNAL_SERVER_ERROR, "sorry");
 
     private HttpStatus status;

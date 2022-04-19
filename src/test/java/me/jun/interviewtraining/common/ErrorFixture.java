@@ -20,4 +20,8 @@ abstract public class ErrorFixture {
     public static ErrorResponse invalidContentErrorResponse() {
         return ErrorResponse.of(INVALID_CONTENT);
     }
+
+    public static ErrorResponse invalidEmailErrorResponse() {
+        return ErrorResponse.of(INVALID_EMAIL);
+    }
 }

@@ -3,6 +3,7 @@ package me.jun.interviewtraining.common;
 import me.jun.interviewtraining.common.error.ErrorResponse;
 import me.jun.interviewtraining.support.BusinessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorResponse> MethodArgumentNotValidExceptionHandler() {
         ErrorResponse response = ErrorResponse.of(INVALID_CONTENT);
         return ResponseEntity.status(response.getStatus())
