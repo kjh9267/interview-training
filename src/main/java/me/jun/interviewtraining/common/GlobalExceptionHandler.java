@@ -1,13 +1,14 @@
 package me.jun.interviewtraining.common;
 
+import me.jun.interviewtraining.common.error.ErrorResponse;
 import me.jun.interviewtraining.support.BusinessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static me.jun.interviewtraining.common.ErrorCode.INVALID_CONTENT;
-import static me.jun.interviewtraining.common.ErrorCode.UNEXPECTED_ERROR;
+import static me.jun.interviewtraining.common.error.ErrorCode.INVALID_CONTENT;
+import static me.jun.interviewtraining.common.error.ErrorCode.UNEXPECTED_ERROR;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

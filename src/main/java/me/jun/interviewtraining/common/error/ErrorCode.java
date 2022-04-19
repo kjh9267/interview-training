@@ -1,4 +1,4 @@
-package me.jun.interviewtraining.common;
+package me.jun.interviewtraining.common.error;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

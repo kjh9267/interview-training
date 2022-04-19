@@ -2,8 +2,9 @@ package me.jun.interviewtraining.common;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import me.jun.interviewtraining.common.error.ErrorResponse;
 
-import static me.jun.interviewtraining.common.ErrorCode.*;
+import static me.jun.interviewtraining.common.error.ErrorCode.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 abstract public class ErrorFixture {
