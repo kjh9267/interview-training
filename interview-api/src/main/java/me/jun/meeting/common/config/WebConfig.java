@@ -1,8 +1,7 @@
 package me.jun.meeting.common.config;
 
 import lombok.RequiredArgsConstructor;
-import me.jun.meeting.infra.MeetingApiServiceImpl;
-import me.jun.meeting.presentation.MeetingHandler;
+import me.jun.meeting.presentation.InterviewHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.EnableWebFlux;
@@ -19,12 +18,12 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class WebConfig implements WebFluxConfigurer {
 
-    private final MeetingHandler meetingHandler;
+    private final InterviewHandler interviewHandler;
 
     @Bean
-    public RouterFunction<ServerResponse> meetingRouter() {
+    public RouterFunction<ServerResponse> interviewRouter() {
         return route()
-                .GET("/api/v1/meetings", accept(APPLICATION_JSON), meetingHandler::joinMeeting)
+                .GET("/api/v1/interviews", accept(APPLICATION_JSON), interviewHandler::joinInterview)
                 .build();
     }
 }

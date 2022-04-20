@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>me.jun</groupId>
-    <artifactId>interview-training</artifactId>
+    <artifactId>meeting-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>interview-training</name>
-    <description>interview-training</description>
+    <name>meeting-api</name>
+    <description>meeting-api</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

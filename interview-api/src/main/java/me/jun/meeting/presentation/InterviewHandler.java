@@ -7,11 +7,11 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class MeetingHandler {
+public class InterviewHandler {
 
     private final MeetingApiService meetingApiService;
 
-    public Mono<ServerResponse> joinMeeting(ServerRequest request) {
+    public Mono<ServerResponse> joinInterview(ServerRequest request) {
         return meetingApiService.retrieveInterviewers("test email");
     }
 }
