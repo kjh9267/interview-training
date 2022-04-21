@@ -37,6 +37,38 @@ class MeetingControllerTest {
     private MeetingService meetingService;
 
     @Test
+    void retrieveMeetingTest() throws Exception {
+        String expected = objectMapper.writeValueAsString(meetingResponse());
+
+        given(meetingService.retrieveMeeting(any()))
+                .willReturn(meetingResponse());
+
+        mockMvc.perform(
+                get("/api/v1/meetings/?url=" + MEETING_URL)
+                .accept(APPLICATION_JSON)
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(expected));
+    }
+
+    @Test
+    void noMeeting_retrieveMeetingFailTest() throws Exception {
+        String expected = objectMapper.writeValueAsString(meetingNotFoundErrorResponse());
+
+        given(meetingService.retrieveMeeting(any()))
+                .willThrow(new MeetingNotFoundException());
+
+        mockMvc.perform(
+                get("/api/v1/meetings/?url=" + MEETING_URL)
+                .accept(APPLICATION_JSON)
+        )
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().json(expected));
+    }
+
+    @Test
     void createMeetingTest() throws Exception {
         String expected = objectMapper.writeValueAsString(meetingResponse());
 

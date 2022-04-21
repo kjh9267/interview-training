@@ -20,6 +20,14 @@ public class MeetingController {
 
     private final MeetingService meetingService;
 
+    @GetMapping
+    public ResponseEntity<MeetingResponse> retrieveMeeting(@RequestParam String url) {
+        RetrieveMeetingRequest request = RetrieveMeetingRequest.from(url);
+        MeetingResponse response = meetingService.retrieveMeeting(request);
+        return ResponseEntity.ok()
+                .body(response);
+    }
+
     @PostMapping
     public ResponseEntity<MeetingResponse> createMeeting(@RequestBody @Valid CreateMeetingRequest request,
                                                          @UserInfo RequestUser user) {

@@ -36,6 +36,10 @@ abstract public class MeetingFixture {
         return meeting;
     }
 
+    public static RetrieveMeetingRequest retrieveMeetingRequest() {
+        return new RetrieveMeetingRequest(MEETING_URL);
+    }
+
     public static CreateMeetingRequest createMeetingRequest() {
         return new CreateMeetingRequest(LIMIT_INTERVIEWER_COUNT);
     }

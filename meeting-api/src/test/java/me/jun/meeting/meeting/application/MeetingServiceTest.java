@@ -36,6 +36,28 @@ public class MeetingServiceTest {
     }
 
     @Test
+    void retrieveMeetingTest() {
+        Meeting meeting = meeting();
+
+        given(meetingRepository.findByUrl(any()))
+                .willReturn(Optional.of(meeting));
+        
+        assertThat(meetingService.retrieveMeeting(retrieveMeetingRequest()))
+                .isEqualToComparingFieldByField(meetingResponse());
+    }
+
+    @Test
+    void noMeeting_retrieveMeetingFailTest() {
+        given(meetingRepository.findByUrl(any()))
+                .willThrow(new MeetingNotFoundException());
+
+        assertThrows(
+                MeetingNotFoundException.class,
+                () -> meetingRepository.findByUrl(MEETING_URL)
+        );
+    }
+
+    @Test
     void createMeetingTest() {
         Meeting meeting = meeting();
 

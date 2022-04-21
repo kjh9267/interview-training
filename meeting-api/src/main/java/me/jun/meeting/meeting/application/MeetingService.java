@@ -7,8 +7,8 @@ import me.jun.meeting.meeting.domain.Interviewer;
 import me.jun.meeting.meeting.domain.Meeting;
 import me.jun.meeting.meeting.domain.repository.MeetingRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @Service
 @Transactional
@@ -16,6 +16,16 @@ import javax.transaction.Transactional;
 public class MeetingService {
 
     private final MeetingRepository meetingRepository;
+
+    @Transactional(readOnly = true)
+    public MeetingResponse retrieveMeeting(RetrieveMeetingRequest request) {
+        String url = request.getUrl();
+
+        Meeting meeting = meetingRepository.findByUrl(url)
+                .orElseThrow(MeetingNotFoundException::new);
+
+        return MeetingResponse.from(meeting);
+    }
 
     public MeetingResponse createMeeting(CreateMeetingRequest request, RequestUser user) {
         Long limitInterviewerCount = request.getLimitInterviewerCount();
