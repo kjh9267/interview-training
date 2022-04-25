@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import static me.jun.interview.InterviewFixture.INTERVIEWER;
+import static me.jun.interview.InterviewFixture.I_USER;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @AutoConfigureWebTestClient
@@ -18,9 +20,11 @@ class InterviewHandlerTest {
     @Test
     void joinMeetingTest() throws Exception {
 
-        webTestClient.get()
+        webTestClient.post()
                 .uri("/api/v1/interviews")
                 .accept(APPLICATION_JSON)
+                .header(I_USER, INTERVIEWER)
+
                 .exchange()
                 .returnResult(String.class)
                 .consumeWith(System.out::println);

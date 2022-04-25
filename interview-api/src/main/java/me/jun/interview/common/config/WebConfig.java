@@ -1,7 +1,8 @@
 package me.jun.interview.common.config;
 
 import lombok.RequiredArgsConstructor;
-import me.jun.interview.presentation.InterviewHandler;
+import me.jun.interview.common.handler.PreHandler;
+import me.jun.interview.interview.presentation.InterviewHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.EnableWebFlux;
@@ -20,10 +21,13 @@ public class WebConfig implements WebFluxConfigurer {
 
     private final InterviewHandler interviewHandler;
 
+    private final PreHandler preHandler;
+
     @Bean
     public RouterFunction<ServerResponse> interviewRouter() {
         return route()
-                .GET("/api/v1/interviews", accept(APPLICATION_JSON), interviewHandler::joinInterview)
+                .before(preHandler::filterInterviewer)
+                .POST("/api/v1/interviews", accept(APPLICATION_JSON), interviewHandler::joinInterview)
                 .build();
     }
 }

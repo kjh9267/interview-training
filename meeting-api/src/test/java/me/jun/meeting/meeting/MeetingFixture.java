@@ -11,7 +11,7 @@ abstract public class MeetingFixture {
 
     public static final Long MEETING_ID = 1L;
 
-    public static final String MEETING_HOST_URL = "localhost:8080";
+    public static final String MEETING_HOST_URL = "localhost:8081";
 
     public static final String CREATOR_EMAIL = "creator@email.com";
 

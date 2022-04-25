@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import static me.jun.meeting.support.UrlUtils.MEETING_URL;
+import static me.jun.meeting.support.UrlUtils.INTERVIEW_URL;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -60,6 +60,6 @@ public class Meeting {
     }
 
     private static String createUrl(Interviewer creator) {
-        return MEETING_URL + "/" + creator.getEmail();
+        return INTERVIEW_URL + "/" + creator.getEmail();
     }
 }
